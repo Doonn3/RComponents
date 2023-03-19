@@ -26,5 +26,6 @@
         "lines": 40
         }
     },
-    "clearMocks": true
+    "clearMocks": true,
+    "verbose": true
 }
