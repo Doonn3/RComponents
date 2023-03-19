@@ -5,8 +5,8 @@
   "type": "module",
   "main": "./src/main.tsx",
   "scripts": {
-    "test": "jest --coverage --coverageReporters='json-summary'",
-    "silent-test": "jest --silent=false",
+    "test": "vitest run",
+    "test-coverage": "vitest run --coverage",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -27,6 +27,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.3",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-config-react-app": "^7.0.1",
@@ -46,6 +47,7 @@
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-svgr": "^2.4.0"
+    "vite-plugin-svgr": "^2.4.0",
+    "vitest": "^0.29.3"
   }
 }
