@@ -23,7 +23,6 @@ class Card extends React.Component<CardType> {
   }
 
   public render(): React.ReactNode {
-    // https://naked-science.ru/wp-content/uploads/2017/05/field_image_marsandmoon_00.jpeg
     const { img, author, title, tags, liksCount, viewCount } = this.props;
     return (
       <div className="card">

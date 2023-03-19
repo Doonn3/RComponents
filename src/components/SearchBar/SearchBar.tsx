@@ -11,8 +11,6 @@ class SearchBar extends React.Component<object, { value: string }> {
   }
 
   public componentDidMount() {
-    console.log('MOUNT');
-    console.log(this.props);
     const val = localStorage.getItem(this.localKey);
 
     if (val !== null) {
@@ -21,12 +19,10 @@ class SearchBar extends React.Component<object, { value: string }> {
   }
 
   public componentWillUnmount() {
-    console.log('UNMOUNT');
     localStorage.setItem(this.localKey, this.state.value);
   }
 
   public componentDidUpdate() {
-    console.log('Update');
     localStorage.setItem(this.localKey, this.state.value);
   }
 
