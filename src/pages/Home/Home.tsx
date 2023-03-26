@@ -25,6 +25,7 @@ function getCards(): ReactElement[] {
     cards.push(
       <Card
         key={key}
+        darkMode={card.darkMode}
         img={card.img}
         title={card.title}
         author={card.author}
