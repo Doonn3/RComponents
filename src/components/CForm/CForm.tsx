@@ -81,7 +81,7 @@ class CForm extends React.Component<CFormSuccessValidate> {
             </label>
             <label className={style.label}>
               <CInputSwitch ref={this.refSwitch} />
-              <p className={style.help}>ХУЙ ЕГО ЗНАЕТ</p>
+              <p className={style.help}>Something there is not known why and where</p>
             </label>
           </section>
         </div>
@@ -116,6 +116,7 @@ class CForm extends React.Component<CFormSuccessValidate> {
     vArr.push(authorValidate.accessCode);
     vArr.push(tagsValidate.accessCode);
     vArr.push(fileValidate.accessCode);
+    vArr.push(dateValidate.accessCode);
 
     const findError = vArr.find((accessCode) => accessCode === 'Error');
     if (findError) {
@@ -234,7 +235,7 @@ class CForm extends React.Component<CFormSuccessValidate> {
   }
 
   private resetForm(): void {
-    const refs = [this.refAuthor, this.refTitle, this.refTags, this.refFile];
+    const refs = [this.refAuthor, this.refTitle, this.refTags, this.refFile, this.refDate];
 
     refs.forEach((ref) => {
       ref.current?.reset();
