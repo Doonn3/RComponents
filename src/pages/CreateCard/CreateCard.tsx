@@ -25,7 +25,7 @@ class CreateCard extends React.Component<object, { cards: JSX.Element[] }> {
 
     const item: JSX.Element = (
       <Card
-        key={title}
+        key={`${title}.${Date.now()}`}
         img={file}
         title={title}
         author={author}

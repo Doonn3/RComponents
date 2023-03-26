@@ -21,13 +21,13 @@ class CInputSwitch extends React.Component {
               defaultChecked
             />
             <label className="selector-item__label" htmlFor="radio1">
-              radio 1
+              There
             </label>
           </div>
           <div className="selecotr-item">
             <input id="radio2" className="selector-item_radio" type="radio" name="selector" />
             <label className="selector-item__label" htmlFor="radio2">
-              radio 2
+              Here
             </label>
           </div>
         </div>
