@@ -23,7 +23,7 @@ export default defineConfig({
       provider: 'c8',
       all: true,
       reporter: "text",
-      lines: 40
+      lines: 50
     },
     setupFiles: './src/setupTest.ts',
   },
