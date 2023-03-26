@@ -94,7 +94,6 @@ class CForm extends React.Component<CFormSuccessValidate> {
 
   private submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Submit');
     const vArr: string[] = [];
 
     const titleValidate = this.titleValidate(this.refTitle);
@@ -120,11 +119,8 @@ class CForm extends React.Component<CFormSuccessValidate> {
 
     const findError = vArr.find((accessCode) => accessCode === 'Error');
     if (findError) {
-      console.log('Validity Error!!!');
       return;
     }
-
-    console.log('Success Validation!!!');
 
     const isDrakMode = this.refCheckbox.current?.InputRef.current?.checked;
 

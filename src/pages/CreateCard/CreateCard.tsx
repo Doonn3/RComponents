@@ -20,7 +20,6 @@ class CreateCard extends React.Component<object, { cards: JSX.Element[] }> {
   }
 
   private create = (args: SuccessValidateProps) => {
-    console.log('CREATE!!!!');
     const { title, author, tags, file, themeDarkMode } = args;
 
     const item: JSX.Element = (
