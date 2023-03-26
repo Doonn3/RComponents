@@ -1,4 +1,5 @@
 interface CardType {
+  darkMode: boolean;
   img?: string;
   title: string;
   author: string;
