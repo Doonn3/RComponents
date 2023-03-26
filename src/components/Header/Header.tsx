@@ -11,6 +11,9 @@ function Header() {
         <NavLink className="nav__link" to="/about">
           About Us
         </NavLink>
+        <NavLink className="nav__link" to="/form">
+          Form
+        </NavLink>
       </nav>
     </header>
   );
