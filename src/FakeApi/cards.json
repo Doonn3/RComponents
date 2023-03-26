@@ -1,5 +1,6 @@
 {
     "card": {
+        "darkMode": true,
         "img": "https://naked-science.ru/wp-content/uploads/2017/05/field_image_marsandmoon_00.jpeg",
         "title": "Марс",
         "author": "Marsianin",
@@ -8,6 +9,7 @@
         "viewCount": 1200
     },
     "card1": {
+        "darkMode": true,
         "img": "https://phonoteka.org/uploads/posts/2021-06/1624935761_24-phonoteka_org-p-oboi-klassnie-na-telefon-krutie-krasivo-24.jpg",
         "title": "Wolf",
         "author": "Bobik",
@@ -16,6 +18,7 @@
         "viewCount": 125
     },
     "card2": {
+        "darkMode": false,
         "img": "https://i0.wp.com/5sfer.com/wp-content/uploads/2015/08/8ipwnn.jpg?fit=720%2C450&amp;ssl=1",
         "title": "Nature",
         "author": "God",
@@ -24,6 +27,7 @@
         "viewCount": 10800
     },
     "card3": {
+        "darkMode": false,
         "img": "",
         "title": "Ups",
         "author": "Blank",
