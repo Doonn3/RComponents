@@ -74,10 +74,8 @@ class CForm extends React.Component<CFormSuccessValidate> {
               <p className={style.help}>In what period to publish the card</p>
             </label>
             <label className={style.label}>
-              {/* <div className={style.row}> */}
               <CInputCheckbox ref={this.refCheckbox} />
               <p className={style.help}>Choosing a theme (light or dark)</p>
-              {/* </div> */}
             </label>
             <label className={style.label}>
               <CInputSwitch ref={this.refSwitch} />
@@ -180,7 +178,6 @@ class CForm extends React.Component<CFormSuccessValidate> {
     if (ref.current === null) return { accessCode: 'Error' };
     if (ref.current.InputRef.current === null) return { accessCode: 'Error' };
     const val = ref.current.InputRef.current.value;
-    // if (val.trim() === '') return { accessCode: 'Error', text: 'Error: Look Example' };
 
     if (val.length < 3) return { accessCode: 'Error', text: 'Error: min 3 chars' };
 
