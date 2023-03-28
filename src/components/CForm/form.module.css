@@ -57,15 +57,6 @@
   color: black;
 }
 
-/* .row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-bottom: 5px;
-  font-size: 25px;
-  color: #c6ebfa;
-} */
-
 .row:first-child {
   margin-right: 10px;
 }
