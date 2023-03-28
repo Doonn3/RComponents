@@ -228,7 +228,15 @@ class CForm extends React.Component<CFormSuccessValidate> {
   }
 
   private resetForm(): void {
-    const refs = [this.refAuthor, this.refTitle, this.refTags, this.refFile, this.refDate];
+    const refs = [
+      this.refAuthor,
+      this.refTitle,
+      this.refTags,
+      this.refFile,
+      this.refDate,
+      this.refOptions,
+      this.refSwitch,
+    ];
 
     refs.forEach((ref) => {
       ref.current?.reset();

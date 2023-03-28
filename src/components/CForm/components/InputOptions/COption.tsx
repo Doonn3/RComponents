@@ -14,7 +14,7 @@ class CInputOption extends React.Component<object, IState> {
 
   constructor(props = {}) {
     super(props);
-    this.state = { value: 'lime' };
+    this.state = { value: 'photo' };
   }
 
   public render(): React.ReactNode {
@@ -30,6 +30,10 @@ class CInputOption extends React.Component<object, IState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.setState({ value: event.target.value });
+  };
+
+  public reset = () => {
+    this.setState({ value: 'photo' });
   };
 }
 
