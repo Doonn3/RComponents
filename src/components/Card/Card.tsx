@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import CardType from './type/CardType';
-import './style.css';
 import { ReactComponent as IconLike } from '../../assets/like.svg';
 import { ReactComponent as IconView } from '../../assets/view.svg';
 import ImageBlank from '../../assets/blank-card.png';
+import './style.css';
 
 type darkThemeType = {
   dark: string;
@@ -15,60 +15,49 @@ interface IState {
   darkTheme: darkThemeType;
 }
 
-class Card extends React.Component<CardType, IState> {
-  private readonly theme = { dark: 'dark', whiteText: 'white' };
+function Card(props: CardType) {
+  const [mode, setDarkMode] = useState<IState>({
+    isDarkMode: false,
+    darkTheme: { dark: '', whiteText: '' },
+  });
 
-  constructor(props: CardType) {
-    super(props);
-    this.state = { isDarkMode: false, darkTheme: { dark: '', whiteText: '' } };
-  }
+  const theme = useMemo(() => {
+    return { dark: 'dark', whiteText: 'white' };
+  }, []);
 
-  public componentDidMount(): void {
-    const { darkMode } = this.props;
+  useEffect(() => {
+    const { darkMode } = props;
     if (darkMode) {
-      this.setState({ isDarkMode: true });
-      // if (this.state.isDarkMode) {
-      this.setState({ darkTheme: this.theme });
-      // }
+      setDarkMode({ isDarkMode: true, darkTheme: theme });
     }
-  }
+  }, [props, theme]);
 
-  public componentWillUnmount(): void {
-    //
-  }
+  const { img, author, title, tags, liksCount, viewCount } = props;
 
-  public componentDidUpdate(): void {
-    //
-  }
-
-  public render(): React.ReactNode {
-    const { img, author, title, tags, liksCount, viewCount } = this.props;
-
-    return (
-      <div className={`card ${this.state.darkTheme.dark}`}>
-        <img className="card__img" src={img || ImageBlank} alt="" />
-        <div className="card__content">
-          <p className={`card__title`}>{title}</p>
-          <p className={`card__author ${this.state.darkTheme.whiteText}`}>by {author}</p>
-          <p className={`card__tags ${this.state.darkTheme.whiteText}`}>{tags}</p>
-          <div className="card__social">
-            <div className="card__likes">
-              <IconLike className={`icon icon-like ${this.state.darkTheme.whiteText}`}></IconLike>
-              <span className={`likes ${this.state.darkTheme.whiteText}`}>
-                {liksCount !== undefined && liksCount <= -1 ? 0 : liksCount || 0}
-              </span>
-            </div>
-            <div className="card__views">
-              <IconView className={`icon icon-view ${this.state.darkTheme.whiteText}`}></IconView>
-              <span className={`views ${this.state.darkTheme.whiteText}`}>
-                {viewCount !== undefined && viewCount <= -1 ? 0 : viewCount || 0}
-              </span>
-            </div>
+  return (
+    <div className={`card ${mode.darkTheme.dark}`}>
+      <img className="card__img" src={img || ImageBlank} alt="" />
+      <div className="card__content">
+        <p className={`card__title`}>{title}</p>
+        <p className={`card__author ${mode.darkTheme.whiteText}`}>by {author}</p>
+        <p className={`card__tags ${mode.darkTheme.whiteText}`}>{tags}</p>
+        <div className="card__social">
+          <div className="card__likes">
+            <IconLike className={`icon icon-like ${mode.darkTheme.whiteText}`}></IconLike>
+            <span className={`likes ${mode.darkTheme.whiteText}`}>
+              {liksCount !== undefined && liksCount <= -1 ? 0 : liksCount || 0}
+            </span>
+          </div>
+          <div className="card__views">
+            <IconView className={`icon icon-view ${mode.darkTheme.whiteText}`}></IconView>
+            <span className={`views ${mode.darkTheme.whiteText}`}>
+              {viewCount !== undefined && viewCount <= -1 ? 0 : viewCount || 0}
+            </span>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Card;
