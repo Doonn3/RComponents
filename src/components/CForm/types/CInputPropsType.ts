@@ -1,7 +1,6 @@
 interface CInputPropsType {
-  inputType: string;
+  inputType?: string;
   placeholder?: string;
-  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default CInputPropsType;
