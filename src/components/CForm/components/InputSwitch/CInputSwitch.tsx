@@ -1,48 +1,45 @@
-import React from 'react';
+import IRef from 'components/CForm/interface/IRef';
+import IResetText from 'components/CForm/interface/IResetText';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import './style.css';
 
-class CInputSwitch extends React.Component<object> {
-  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+type RT = IRef<HTMLInputElement> & IResetText;
 
-  public get InputRef() {
-    return this.inputRef;
-  }
+const CInputSwitch = forwardRef<RT, object>((props, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  public constructor(props = {}) {
-    super(props);
-  }
+  useImperativeHandle(ref, () => ({
+    GetchildRef: inputRef,
+    resetAccessText() {
+      if (inputRef.current !== null) inputRef.current.checked = true;
+    },
+  }));
 
-  render(): React.ReactNode {
-    return (
-      <div className="container">
-        <div className="selector">
-          <div className="selecotr-item">
-            <input
-              id="radio1"
-              className="selector-item__radio"
-              type="radio"
-              name="selector"
-              defaultChecked
-              ref={this.inputRef}
-            />
-            <label className="selector-item__label" htmlFor="radio1">
-              There
-            </label>
-          </div>
-          <div className="selecotr-item">
-            <input id="radio2" className="selector-item_radio" type="radio" name="selector" />
-            <label className="selector-item__label" htmlFor="radio2">
-              Here
-            </label>
-          </div>
+  return (
+    <div className="container">
+      <div className="selector">
+        <div className="selecotr-item">
+          <input
+            id="radio1"
+            className="selector-item__radio"
+            type="radio"
+            name="selector"
+            defaultChecked
+            ref={inputRef}
+          />
+          <label className="selector-item__label" htmlFor="radio1">
+            There
+          </label>
+        </div>
+        <div className="selecotr-item">
+          <input id="radio2" className="selector-item_radio" type="radio" name="selector" />
+          <label className="selector-item__label" htmlFor="radio2">
+            Here
+          </label>
         </div>
       </div>
-    );
-  }
-
-  public reset(): void {
-    if (this.inputRef.current !== null) this.inputRef.current.checked = true;
-  }
-}
+    </div>
+  );
+});
 
 export default CInputSwitch;
