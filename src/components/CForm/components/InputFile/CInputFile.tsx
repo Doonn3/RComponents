@@ -1,62 +1,49 @@
-import React from 'react';
-import IAccessCInput from '../../interface/IAccessCInput';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import IAccessCInputHandles from '../../interface/IAccessCInputHandles';
 import CInputAccessType from '../../types/CInputAccessType';
 import CInputPropsType from '../../types/CInputPropsType';
 import './style.css';
 
-class CInputFile
-  extends React.Component<CInputPropsType | object, CInputAccessType>
-  implements IAccessCInput
-{
-  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+const CInputFile = forwardRef<IAccessCInputHandles, CInputPropsType>((props, ref) => {
+  const [access, setAccess] = useState<CInputAccessType>({
+    accessText: 'or drag and drop files here',
+    accessClassName: '',
+  });
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  public get InputRef() {
-    return this.inputRef;
-  }
+  useImperativeHandle(ref, () => ({
+    GetchildRef: inputRef,
+    accessTextError: (errorText?: string) => {
+      const defaultErrorText = 'you need to select an image';
+      setAccess({ accessText: errorText || defaultErrorText, accessClassName: `error` });
+    },
+    accessTextSuccess: (successText?: string) => {
+      const defaultAccessText = 'or drag and drop files here';
+      setAccess({ accessText: successText || defaultAccessText, accessClassName: `` });
+    },
+    resetAccessText: () => {
+      setAccess({ accessText: 'or drag and drop files here', accessClassName: '' });
+    },
+  }));
 
-  constructor(props: CInputPropsType | object = {}) {
-    super(props);
-    this.state = { accessText: 'or drag and drop files here', accessClassName: '' };
-  }
-
-  render(): React.ReactNode {
-    return (
-      <div className="file-drop-area">
-        <span className="fake-btn">Choose files</span>
-        <span className={`file-msg ${this.state.accessClassName}`}>{this.state.accessText}</span>
-        <input
-          className="file-input"
-          type="file"
-          accept="image/png, image/jpeg"
-          ref={this.inputRef}
-          placeholder="file"
-          onFocus={this.handleFocus}
-        />
-      </div>
-    );
-  }
-
-  private handleFocus = () => {
-    this.resetAccessText();
+  const handleFocus = () => {
+    setAccess({ accessText: 'or drag and drop files here', accessClassName: '' });
   };
 
-  public accessTextError(errorText?: string | undefined): void {
-    const defaultErrorText = 'you need to select an image';
-    this.setState({ accessText: errorText || defaultErrorText, accessClassName: 'error' });
-  }
-  public accessTextSuccess(successText?: string | undefined): void {
-    const defaultAccessText = 'or drag and drop files here';
-    this.setState({ accessText: successText || defaultAccessText, accessClassName: '' });
-  }
-
-  public resetAccessText() {
-    this.setState({ accessText: 'or drag and drop files here', accessClassName: '' });
-  }
-
-  public reset(): void {
-    if (this.inputRef.current !== null) this.inputRef.current.value = '';
-    this.setState({ accessText: 'or drag and drop files here', accessClassName: '' });
-  }
-}
+  return (
+    <div className="file-drop-area">
+      <span className="fake-btn">Choose files</span>
+      <span className={`file-msg ${access.accessClassName}`}>{access.accessText}</span>
+      <input
+        className="file-input"
+        type="file"
+        accept="image/png, image/jpeg"
+        ref={inputRef}
+        placeholder="file"
+        onFocus={handleFocus}
+      />
+    </div>
+  );
+});
 
 export default CInputFile;
