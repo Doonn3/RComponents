@@ -1,30 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../../components/Card/Card';
 import CForm, { SuccessValidateProps } from '../../components/CForm/CForm';
 import './style.css';
 
-class CreateCard extends React.Component<object, { cards: JSX.Element[] }> {
-  constructor(prop = {}) {
-    super(prop);
+function CreateCard() {
+  const [cards, setCard] = useState<JSX.Element[]>([]);
 
-    this.state = { cards: [] };
-  }
-
-  public render(): React.ReactNode {
-    return (
-      <section className="card-create">
-        <CForm successValidate={this.create} />
-        <div className="card-create__container">{this.state.cards}</div>
-      </section>
-    );
-  }
-
-  private create = (args: SuccessValidateProps) => {
+  const create = (args: SuccessValidateProps) => {
     const { title, author, tags, file, themeDarkMode } = args;
+
+    const key = `${title}.${Date.now()}`;
 
     const item: JSX.Element = (
       <Card
-        key={`${title}.${Date.now()}`}
+        id={key}
+        key={key}
         img={file}
         title={title}
         author={author}
@@ -33,8 +23,16 @@ class CreateCard extends React.Component<object, { cards: JSX.Element[] }> {
       />
     );
 
-    this.setState((prevState) => ({ cards: [...prevState.cards, item] }));
+    // setCard((prevState) => ({ ...prevState, item }));
+    setCard([...cards, item]);
   };
+
+  return (
+    <section className="card-create">
+      <CForm successValidate={create} />
+      <div className="card-create__container">{cards}</div>
+    </section>
+  );
 }
 
 export default CreateCard;
