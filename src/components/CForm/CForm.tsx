@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import CInput from './components/InputText/Cinput';
 import CInputFile from './components/InputFile/CInputFile';
 import CInputCheckbox from './components/InputCheckbox/CInputCheckbox';
 import style from './form.module.css';
 import CInputSwitch from './components/InputSwitch/CInputSwitch';
 import CInputOption from './components/InputOptions/COption';
+import IAccessCInputHandles from './interface/IAccessCInputHandles';
+import IRef from './interface/IRef';
 
 export interface SuccessValidateProps {
   title: string;
@@ -24,139 +26,85 @@ interface CFormSuccessValidate {
   successValidate?: (args: SuccessValidateProps) => void;
 }
 
-class CForm extends React.Component<CFormSuccessValidate> {
-  private refTitle: React.RefObject<CInput> = React.createRef();
-  private refAuthor: React.RefObject<CInput> = React.createRef();
-  private refTags: React.RefObject<CInput> = React.createRef();
-  private refDate: React.RefObject<CInput> = React.createRef();
+function CForm(props: CFormSuccessValidate) {
+  const refAuthor = useRef<IAccessCInputHandles<HTMLInputElement>>(null);
+  const refTitle = useRef<IAccessCInputHandles<HTMLInputElement>>(null);
+  const refTags = useRef<IAccessCInputHandles<HTMLInputElement>>(null);
+  const refDate = useRef<IAccessCInputHandles<HTMLInputElement>>(null);
+  const refFile = useRef<IAccessCInputHandles<HTMLInputElement>>(null);
 
-  private refOptions: React.RefObject<CInputOption> = React.createRef();
+  const refOptions = useRef<IAccessCInputHandles<HTMLSelectElement>>(null);
 
-  private refCheckbox: React.RefObject<CInputCheckbox> = React.createRef();
-  private refSwitch: React.RefObject<CInputSwitch> = React.createRef();
+  const refCheckbox = useRef<IRef<HTMLInputElement>>(null);
+  const refSwitch = useRef<IAccessCInputHandles<HTMLInputElement>>(null);
 
-  private refFile: React.RefObject<CInputFile> = React.createRef();
-
-  constructor(props: CFormSuccessValidate) {
-    super(props);
-  }
-
-  public render(): React.ReactNode {
-    return (
-      <form className={style.form} action="submit" onSubmit={this.submit}>
-        <div className={style.wrapper}>
-          <section className={style.section}>
-            <h1 className={style.title}>Required fields</h1>
-            <label className={style.label}>
-              <CInput inputType="text" placeholder="Author" ref={this.refAuthor} />
-              <p className={style.help}>Author: Format (Alex Houdini)</p>
-            </label>
-            <label className={style.label}>
-              <CInput inputType="text" placeholder="Card name" ref={this.refTitle} />
-              <p className={style.help}>Card name: Format (First Card)</p>
-            </label>
-            <label className={style.label}>
-              <CInput inputType="text" placeholder="Tags" ref={this.refTags} />
-              <p className={style.help}>Tags: Example (design, photo, nature)</p>
-            </label>
-            <label className={style.label}>
-              <CInputFile ref={this.refFile} />
-            </label>
-          </section>
-          <section className={style.section}>
-            <h1 className={style.title}>Card settings</h1>
-            <label className={style.label}>
-              <CInputOption ref={this.refOptions} />
-              <p className={style.help}>What section will the map be in?</p>
-            </label>
-            <label className={style.label}>
-              <CInput inputType="date" placeholder="Date" ref={this.refDate} />
-              <p className={style.help}>In what period to publish the card</p>
-            </label>
-            <label className={style.label}>
-              <CInputCheckbox ref={this.refCheckbox} />
-              <p className={style.help}>Choosing a theme (light or dark)</p>
-            </label>
-            <label className={style.label}>
-              <CInputSwitch ref={this.refSwitch} />
-              <p className={style.help}>Something there is not known why and where</p>
-            </label>
-          </section>
-        </div>
-        <button className={style.button} type="submit">
-          Create Card
-        </button>
-      </form>
-    );
-  }
-
-  private submit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const vArr: string[] = [];
 
-    const titleValidate = this.titleValidate(this.refTitle);
-    this.accessText(this.refTitle, titleValidate.accessCode, titleValidate.text);
+    const authorV = authorValidate(refAuthor.current?.GetchildRef);
+    accessText(refAuthor, authorV.accessCode, authorV.text);
 
-    const authorValidate = this.authorValidate(this.refAuthor);
-    this.accessText(this.refAuthor, authorValidate.accessCode, authorValidate.text);
+    const titleV = titleValidate(refTitle.current?.GetchildRef);
+    accessText(refTitle, titleV.accessCode, titleV.text);
 
-    const tagsValidate = this.tagsValidate(this.refTags);
-    this.accessText(this.refTags, tagsValidate.accessCode, tagsValidate.text);
+    const tagsV = tagsValidate(refTags.current?.GetchildRef);
+    accessText(refTags, tagsV.accessCode, tagsV.text);
 
-    const dateValidate = this.dateValidate(this.refDate);
-    this.accessText(this.refDate, dateValidate.accessCode);
+    const dateV = dateValidate(refDate.current?.GetchildRef);
+    accessText(refDate, dateV.accessCode);
 
-    const fileValidate = await this.fileValidate(this.refFile);
-    this.accessText(this.refFile, fileValidate.accessCode);
+    const fileV = await fileValidate(refFile.current?.GetchildRef);
+    accessText(refFile, fileV.accessCode);
 
-    vArr.push(titleValidate.accessCode);
-    vArr.push(authorValidate.accessCode);
-    vArr.push(tagsValidate.accessCode);
-    vArr.push(fileValidate.accessCode);
-    vArr.push(dateValidate.accessCode);
+    vArr.push(titleV.accessCode);
+    vArr.push(authorV.accessCode);
+    vArr.push(tagsV.accessCode);
+    vArr.push(fileV.accessCode);
+    vArr.push(dateV.accessCode);
 
     const findError = vArr.find((accessCode) => accessCode === 'Error');
     if (findError) {
       return;
     }
 
-    const isDrakMode = this.refCheckbox.current?.InputRef.current?.checked;
+    const isDrakMode = refCheckbox.current?.GetchildRef.current?.checked;
 
     const data: SuccessValidateProps = {
-      title: titleValidate.data as string,
-      author: authorValidate.data as string,
-      tags: tagsValidate.data as string[],
-      file: fileValidate.data as string,
+      title: titleV.data as string,
+      author: authorV.data as string,
+      tags: tagsV.data as string[],
+      file: fileV.data as string,
       themeDarkMode: isDrakMode !== undefined ? isDrakMode : false,
     };
 
     alert('The data has been saved');
-    if (this.props.successValidate) this.props.successValidate(data);
-    this.resetForm();
+    if (props.successValidate) props.successValidate(data);
+    resetForm();
   };
 
-  private titleValidate(ref: React.RefObject<CInput>): ValidateInfoType {
+  function titleValidate(ref: React.RefObject<HTMLInputElement> | undefined): ValidateInfoType {
+    if (ref === undefined) return { accessCode: 'Error' };
     if (ref.current === null) return { accessCode: 'Error' };
-    if (ref.current.InputRef.current === null) return { accessCode: 'Error' };
+    if (ref.current === null) return { accessCode: 'Error' };
 
-    if (ref.current.InputRef.current.value.length < 3) {
+    const value = ref.current.value;
+
+    if (value.length < 3) {
       return { accessCode: 'Error', text: 'Error: Enter min 3 chars' };
     }
 
-    const val = ref.current.InputRef.current.value;
-
-    if (val[0] !== val[0].toUpperCase()) {
+    if (value[0] !== value[0].toUpperCase()) {
       return { accessCode: 'Error', text: 'Error: First char uppercase' };
     }
 
-    return { accessCode: 'Success', data: val };
+    return { accessCode: 'Success', data: value };
   }
 
-  private authorValidate(ref: React.RefObject<CInput>): ValidateInfoType {
+  function authorValidate(ref: React.RefObject<HTMLInputElement> | undefined): ValidateInfoType {
+    if (ref === undefined) return { accessCode: 'Error' };
     if (ref.current === null) return { accessCode: 'Error' };
-    if (ref.current.InputRef.current === null) return { accessCode: 'Error' };
-
-    const arr: string[] = ref.current.InputRef.current.value.split(' ');
+    const arr: string[] = ref.current.value.split(' ');
 
     if (arr.length < 2 || arr.length > 2) {
       return { accessCode: 'Error', text: 'Error: Enter Name and Surname' };
@@ -174,10 +122,10 @@ class CForm extends React.Component<CFormSuccessValidate> {
     return { accessCode: 'Success', data: arr.join('') };
   }
 
-  private tagsValidate(ref: React.RefObject<CInput>): ValidateInfoType {
+  function tagsValidate(ref: React.RefObject<HTMLInputElement> | undefined): ValidateInfoType {
+    if (ref === undefined) return { accessCode: 'Error' };
     if (ref.current === null) return { accessCode: 'Error' };
-    if (ref.current.InputRef.current === null) return { accessCode: 'Error' };
-    const val = ref.current.InputRef.current.value;
+    const val = ref.current.value;
 
     if (val.length < 3) return { accessCode: 'Error', text: 'Error: min 3 chars' };
 
@@ -186,15 +134,19 @@ class CForm extends React.Component<CFormSuccessValidate> {
     return { accessCode: 'Success', data: result };
   }
 
-  private dateValidate(ref: React.RefObject<CInput>): ValidateInfoType {
-    const date = ref.current?.InputRef.current?.value;
+  function dateValidate(ref: React.RefObject<HTMLInputElement> | undefined): ValidateInfoType {
+    if (ref === undefined) return { accessCode: 'Error' };
+    const date = ref.current?.value;
     if (date === undefined) return { accessCode: 'Error' };
     if (isNaN(Date.parse(date))) return { accessCode: 'Error' };
     return { accessCode: 'Success', data: date };
   }
 
-  private async fileValidate(ref: React.RefObject<CInputFile>): Promise<ValidateInfoType> {
-    const files = ref.current?.InputRef.current?.files;
+  async function fileValidate(
+    ref: React.RefObject<HTMLInputElement> | undefined
+  ): Promise<ValidateInfoType> {
+    if (ref === undefined) return { accessCode: 'Error' };
+    const files = ref.current?.files;
     if (files === null || files === undefined) return { accessCode: 'Error' };
     const file = files[0];
     if (file === undefined) return { accessCode: 'Error' };
@@ -214,34 +166,73 @@ class CForm extends React.Component<CFormSuccessValidate> {
     return { accessCode: 'Success', data: result };
   }
 
-  private accessText(
-    ref: React.RefObject<CInput | CInputFile>,
+  function accessText<T>(
+    ref: React.RefObject<IAccessCInputHandles<T>>,
     accessText = 'Error',
     text?: string
   ) {
     if (ref.current === null) return;
     if (accessText === 'Error') {
-      ref.current?.accessTextError(text);
+      ref.current.accessTextError(text);
     } else if (accessText === 'Success') {
       ref.current?.accessTextSuccess(text);
     }
   }
 
-  private resetForm(): void {
-    const refs = [
-      this.refAuthor,
-      this.refTitle,
-      this.refTags,
-      this.refFile,
-      this.refDate,
-      this.refOptions,
-      this.refSwitch,
-    ];
+  function resetForm(): void {
+    const refs = [refAuthor, refTitle, refTags, refFile, refDate, refOptions, refSwitch];
 
     refs.forEach((ref) => {
-      ref.current?.reset();
+      ref.current?.resetAccessText();
     });
   }
+
+  return (
+    <form className={style.form} action="submit" onSubmit={submit}>
+      <div className={style.wrapper}>
+        <section className={style.section}>
+          <h1 className={style.title}>Required fields</h1>
+          <label className={style.label}>
+            <CInput inputType="text" placeholder="Author" ref={refAuthor} />
+            <p className={style.help}>Author: Format (Alex Houdini)</p>
+          </label>
+          <label className={style.label}>
+            <CInput inputType="text" placeholder="Card name" ref={refTitle} />
+            <p className={style.help}>Card name: Format (First Card)</p>
+          </label>
+          <label className={style.label}>
+            <CInput inputType="text" placeholder="Tags" ref={refTags} />
+            <p className={style.help}>Tags: Example (design, photo, nature)</p>
+          </label>
+          <label className={style.label}>
+            <CInput inputType="date" placeholder="Date" ref={refDate} />
+            <p className={style.help}>In what period to publish the card</p>
+          </label>
+          <label className={style.label}>
+            <CInputFile ref={refFile} />
+          </label>
+        </section>
+        <section className={style.section}>
+          <h1 className={style.title}>Card settings</h1>
+          <label className={style.label}>
+            <CInputOption ref={refOptions} />
+            <p className={style.help}>What section will the map be in?</p>
+          </label>
+          <label className={style.label}>
+            <CInputCheckbox ref={refCheckbox} />
+            <p className={style.help}>Choosing a theme (light or dark)</p>
+          </label>
+          <label className={style.label}>
+            <CInputSwitch ref={refSwitch} />
+            <p className={style.help}>Something there is not known why and where</p>
+          </label>
+        </section>
+      </div>
+      <button className={style.button} type="submit">
+        Create Card
+      </button>
+    </form>
+  );
 }
 
 export default CForm;
