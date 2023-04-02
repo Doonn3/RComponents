@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import Card from '../../components/Card/Card';
 import CardType from 'components/Card/type/CardType';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -6,10 +6,16 @@ import FakeCards from '../../FakeApi/cards.json';
 import './style.css';
 
 function Home() {
-  const cards = getCards();
+  const [cards, setCards] = useState<ReactElement[]>();
+
+  useEffect(() => {
+    const cards = getCards();
+    setCards(cards);
+  }, []);
+
   return (
     <main className="main">
-      <SearchBar></SearchBar>
+      <SearchBar />
       <section className="main__content">{cards}</section>
     </main>
   );
@@ -24,7 +30,8 @@ function getCards(): ReactElement[] {
     const card: CardType = jsonObj[key];
     cards.push(
       <Card
-        key={key}
+        key={card.id}
+        id={card.id}
         darkMode={card.darkMode}
         img={card.img}
         title={card.title}
