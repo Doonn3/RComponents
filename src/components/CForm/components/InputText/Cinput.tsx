@@ -1,60 +1,51 @@
-import React from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import style from './cinput.module.css';
-import IAccessCInput from '../../interface/IAccessCInput';
+import IAccessCInputHandles from '../../interface/IAccessCInputHandles';
 import CInputAccessType from '../../types/CInputAccessType';
 import CInputPropsType from '../../types/CInputPropsType';
 
-class CInput extends React.Component<CInputPropsType, CInputAccessType> implements IAccessCInput {
-  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+const CInput = forwardRef<IAccessCInputHandles<HTMLInputElement>, CInputPropsType>(
+  (props: CInputPropsType, ref) => {
+    const [access, setAccess] = useState<CInputAccessType>({
+      accessText: 'Error',
+      accessClassName: '',
+    });
 
-  public get InputRef() {
-    return this.inputRef;
-  }
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  constructor(props: CInputPropsType) {
-    super(props);
-    this.state = { accessText: 'Error', accessClassName: '' };
-  }
+    useImperativeHandle(ref, () => ({
+      GetchildRef: inputRef,
+      accessTextError: (errorText?: string) => {
+        setAccess({ accessText: errorText || 'Error', accessClassName: `${style.error}` });
+      },
+      accessTextSuccess: (successText?: string) => {
+        setAccess({ accessText: successText || 'Success', accessClassName: `${style.on}` });
+      },
+      resetAccessText: () => {
+        setAccess({ accessText: 'Error', accessClassName: '' });
+        if (inputRef.current !== null) {
+          inputRef.current.value = '';
+        }
+      },
+    }));
 
-  render(): React.ReactNode {
-    const { inputType, placeholder } = this.props;
+    const handleFocus = () => {
+      setAccess({ accessText: 'Error', accessClassName: '' });
+    };
 
     return (
       <div className={style.content}>
         <input
           className={style.cinput}
-          type={inputType}
-          ref={this.inputRef}
-          placeholder={placeholder || 'text'}
-          onFocus={this.handleFocus}
+          type={props.inputType}
+          placeholder={props.placeholder || 'text'}
+          ref={inputRef}
+          onFocus={handleFocus}
         />
-        <span className={`${style.access} ${this.state.accessClassName}`}>
-          {this.state.accessText}
-        </span>
+        <span className={`${style.access} ${access.accessClassName}`}>{access.accessText}</span>
       </div>
     );
   }
-
-  private handleFocus = () => {
-    this.resetAccessText();
-  };
-
-  public accessTextError(errorText?: string) {
-    this.setState({ accessText: errorText || 'Error', accessClassName: `${style.error}` });
-  }
-
-  public accessTextSuccess(successText?: string) {
-    this.setState({ accessText: successText || 'Success', accessClassName: `${style.on}` });
-  }
-
-  public resetAccessText() {
-    this.setState({ accessText: 'Error', accessClassName: '' });
-  }
-
-  public reset = () => {
-    if (this.inputRef.current !== null) this.inputRef.current.value = '';
-    this.resetAccessText();
-  };
-}
+);
 
 export default CInput;
