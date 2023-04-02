@@ -1,36 +1,30 @@
-import React from 'react';
+import IRef from 'components/CForm/interface/IRef';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import './style.css';
 
-class CInputCheckbox extends React.Component {
-  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+const CInputCheckbox = forwardRef<IRef<HTMLInputElement>, object>((props, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  public get InputRef() {
-    return this.inputRef;
-  }
+  useImperativeHandle(ref, () => ({
+    GetchildRef: inputRef,
+  }));
 
-  render(): React.ReactNode {
-    return (
-      <div className="onoffswitch">
-        <input
-          id="myonoffswitch1"
-          className="onoffswitch-checkbox"
-          type="checkbox"
-          ref={this.inputRef}
-        />
+  return (
+    <div className="onoffswitch">
+      <input id="myonoffswitch1" className="onoffswitch-checkbox" type="checkbox" ref={inputRef} />
 
-        <label className="onoffswitch-label" htmlFor="myonoffswitch1">
-          <div className="onoffswitch-inner">
-            <div className="onoffswitch-active">
-              <div className="onoffswitch-switch">Dark</div>
-            </div>
-            <div className="onoffswitch-inactive">
-              <div className="onoffswitch-switch">Light</div>
-            </div>
+      <label className="onoffswitch-label" htmlFor="myonoffswitch1">
+        <div className="onoffswitch-inner">
+          <div className="onoffswitch-active">
+            <div className="onoffswitch-switch">Dark</div>
           </div>
-        </label>
-      </div>
-    );
-  }
-}
+          <div className="onoffswitch-inactive">
+            <div className="onoffswitch-switch">Light</div>
+          </div>
+        </div>
+      </label>
+    </div>
+  );
+});
 
 export default CInputCheckbox;
