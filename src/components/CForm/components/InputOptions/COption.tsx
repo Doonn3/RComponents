@@ -1,40 +1,33 @@
-import React from 'react';
+import IRef from 'components/CForm/interface/IRef';
+import IResetText from 'components/CForm/interface/IResetText';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import style from './style.module.css';
 
-interface IState {
-  value: string;
-}
+type RT = IRef<HTMLSelectElement> & IResetText;
 
-class CInputOption extends React.Component<object, IState> {
-  private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+const CInputOption = forwardRef<RT, object>((props, ref) => {
+  const [val, setValue] = useState<string>('photo');
+  const inputRef = useRef<HTMLSelectElement>(null);
 
-  public get InputRef() {
-    return this.inputRef;
-  }
+  useImperativeHandle(ref, () => ({
+    GetchildRef: inputRef,
+    resetAccessText: () => {
+      setValue('photo');
+    },
+  }));
 
-  constructor(props = {}) {
-    super(props);
-    this.state = { value: 'photo' };
-  }
-
-  public render(): React.ReactNode {
-    return (
-      <select className={style.options} value={this.state.value} onChange={this.handleChange}>
-        <option value="photo">Photo</option>
-        <option value="nature">Nature</option>
-        <option value="design">Design</option>
-        <option value="illustration">Illustration</option>
-      </select>
-    );
-  }
-
-  private handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ value: event.target.value });
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(event.target.value);
   };
 
-  public reset = () => {
-    this.setState({ value: 'photo' });
-  };
-}
+  return (
+    <select className={style.options} value={val} onChange={handleChange} ref={inputRef}>
+      <option value="photo">Photo</option>
+      <option value="nature">Nature</option>
+      <option value="design">Design</option>
+      <option value="illustration">Illustration</option>
+    </select>
+  );
+});
 
 export default CInputOption;
