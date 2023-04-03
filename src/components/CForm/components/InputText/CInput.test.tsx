@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import IAccessCInputHandles from 'components/CForm/interface/IAccessCInputHandles';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import CInput from './Cinput';
 
 describe('CInput text test', () => {
@@ -14,8 +15,11 @@ describe('CInput text test', () => {
     const ref = React.createRef<IAccessCInputHandles<HTMLInputElement>>();
 
     render(<CInput ref={ref} />);
-    expect(ref.current?.accessTextError());
-    expect(ref.current?.accessTextSuccess());
-    expect(ref.current?.resetAccessText());
+
+    act(() => {
+      expect(ref.current?.accessTextError());
+      expect(ref.current?.accessTextSuccess());
+      expect(ref.current?.resetAccessText());
+    });
   });
 });
