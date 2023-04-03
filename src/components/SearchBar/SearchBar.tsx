@@ -4,7 +4,7 @@ import './style.css';
 
 function SearchBar() {
   const localKey = 'search-bar';
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>(localStorage.getItem(localKey) || '');
 
   const mount = () => {
     const val = localStorage.getItem(localKey);
