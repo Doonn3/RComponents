@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+import IAccessCInputHandles from 'components/CForm/interface/IAccessCInputHandles';
+import React from 'react';
 import CInputFile from './CInputFile';
 
 describe('CInputFile test', () => {
@@ -13,5 +15,14 @@ describe('CInputFile test', () => {
     const inputElement = container.querySelector('input');
     const acceptAttrib = inputElement?.getAttribute('accept');
     expect(acceptAttrib === 'image/png, image/jpeg').toBeTruthy();
+  });
+
+  test('test func', () => {
+    const ref = React.createRef<IAccessCInputHandles<HTMLInputElement>>();
+    render(<CInputFile ref={ref} />);
+
+    expect(ref.current?.accessTextError());
+    expect(ref.current?.accessTextSuccess());
+    expect(ref.current?.resetAccessText());
   });
 });
