@@ -1,0 +1,29 @@
+.search-bar {
+  display: inline-flex;
+  padding: 10px;
+  border: 2px solid rgb(234, 127, 255);
+  border-radius: 50px;
+}
+
+.search-bar__icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.search-bar__input {
+  font-size: 20px;
+  color: green;
+}
+
+.search-bar__input {
+  border: none;
+}
+
+.search-bar__input:focus {
+  outline: none;
+}
+
+.search-bar:has(.search-bar__input:focus) {
+  outline: 1px solid rgb(234, 127, 255);
+}

@@ -1,0 +1,42 @@
+{
+    "card": {
+        "id": "1",
+        "darkMode": true,
+        "img": "https://naked-science.ru/wp-content/uploads/2017/05/field_image_marsandmoon_00.jpeg",
+        "title": "Марс",
+        "author": "Marsianin",
+        "tags": ["Photo, Planets"],
+        "liksCount": 478,
+        "viewCount": 1200
+    },
+    "card1": {
+        "id": "2",
+        "darkMode": true,
+        "img": "https://phonoteka.org/uploads/posts/2021-06/1624935761_24-phonoteka_org-p-oboi-klassnie-na-telefon-krutie-krasivo-24.jpg",
+        "title": "Wolf",
+        "author": "Bobik",
+        "tags": ["Design, 2D, Illustration"],
+        "liksCount": 10,
+        "viewCount": 125
+    },
+    "card2": {
+        "id": "3",
+        "darkMode": false,
+        "img": "https://i0.wp.com/5sfer.com/wp-content/uploads/2015/08/8ipwnn.jpg?fit=720%2C450&amp;ssl=1",
+        "title": "Nature",
+        "author": "God",
+        "tags": ["Nature, Photo"],
+        "liksCount": 100500,
+        "viewCount": 10800
+    },
+    "card3": {
+        "id": "4",
+        "darkMode": false,
+        "img": "",
+        "title": "Ups",
+        "author": "Blank",
+        "tags": ["Ups, Kek, No Img"],
+        "liksCount": 100,
+        "viewCount": 222
+    }
+}

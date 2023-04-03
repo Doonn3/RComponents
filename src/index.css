@@ -1,0 +1,26 @@
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+/* input[type="text"] {
+  border: none;
+}
+
+input[type="text"]:focus {
+  outline: none;
+} */
