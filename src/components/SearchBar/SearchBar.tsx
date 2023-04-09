@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/search_icon.svg';
 import './style.css';
 
-function SearchBar() {
+interface ISearchResult {
+  searchResult: (value: string) => void;
+}
+
+function SearchBar(props?: ISearchResult) {
   const localKey = 'search-bar';
   const [value, setValue] = useState<string>(localStorage.getItem(localKey) || '');
 
@@ -28,6 +32,9 @@ function SearchBar() {
   const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val: string = event.currentTarget.value;
     setValue(val);
+    if (props?.searchResult) {
+      props.searchResult(val);
+    }
   };
 
   return (
