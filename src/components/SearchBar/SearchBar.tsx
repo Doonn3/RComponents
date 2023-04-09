@@ -10,24 +10,9 @@ function SearchBar(props?: ISearchResult) {
   const localKey = 'search-bar';
   const [value, setValue] = useState<string>(localStorage.getItem(localKey) || '');
 
-  const mount = () => {
-    const val = localStorage.getItem(localKey);
-    if (val !== null) {
-      setValue(val);
-    }
-  };
-
-  const unmount = useCallback(() => {
-    localStorage.setItem(localKey, value);
-  }, [localKey, value]);
-
   useEffect(() => {
-    mount();
-  }, [localKey]);
-
-  useEffect(() => {
-    unmount();
-  }, [unmount]);
+    localStorage.setItem(localKey, value || '');
+  });
 
   const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val: string = event.currentTarget.value;

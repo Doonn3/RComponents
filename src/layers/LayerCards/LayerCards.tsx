@@ -1,6 +1,6 @@
 import PlanetType from 'api/types/PlanetType';
 import Card from '../../components/Card/Card';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 import ModalCard from '../../components/ModalCard/ModalCard';
 
@@ -11,48 +11,32 @@ type PropsType = {
 };
 
 function LayerCards(props: PropsType): JSX.Element {
-  const [items, setItems] = useState<JSX.Element[]>([]);
   const [value, setValue] = useState<number>(1);
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modal, setModal] = useState<JSX.Element>();
 
-  const handleClickForItem = useCallback(
-    (id: string) => {
-      setIsOpen(true);
-      console.log(id);
-      const find = props.items?.find((item) => item.name === id);
-      if (find) {
-        const modal = <ModalCard {...find} onClick={handleClose} />;
-        setModal(modal);
-      }
-    },
-    [props.items]
-  );
+  const handleClickForItem = (id: string) => {
+    setIsOpen(true);
+    console.log(id);
+    const find = props.items?.find((item) => item.name === id);
+    if (find) {
+      const modal = <ModalCard {...find} onClick={handleClose} />;
+      setModal(modal);
+    }
+  };
 
-  const getItems = useCallback(() => {
-    const data = props.items;
-    if (data === undefined) return null;
-
-    const items = data?.map((elem) => {
-      return (
-        <Card
-          key={elem.name}
-          name={elem.name}
-          urlImg={elem.imageUrl}
-          descriptions={elem.descriptions}
-          callback={handleClickForItem}
-        />
-      );
-    });
-    return items;
-  }, [props.items, handleClickForItem]);
-
-  useEffect(() => {
-    const items = getItems();
-    if (items === null) return;
-    setItems(items);
-  }, [getItems]);
+  const data = props.items;
+  const items = data?.map((elem) => {
+    return (
+      <Card
+        key={elem.name}
+        name={elem.name}
+        urlImg={elem.imageUrl}
+        descriptions={elem.descriptions}
+        callback={handleClickForItem}
+      />
+    );
+  });
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     let num = Number(event.target.value);
@@ -106,7 +90,7 @@ function LayerCards(props: PropsType): JSX.Element {
           &gt;
         </button>
       </div>
-      <div className="layer__content">{...items}</div>
+      <div className="layer__content">{items}</div>
     </section>
   );
 }
