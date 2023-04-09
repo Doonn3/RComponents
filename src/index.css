@@ -5,12 +5,22 @@ html {
 html,
 body {
   margin: 0;
+  background-color: rgb(59, 59, 59);
 }
 
 *,
 ::before,
 ::after {
   box-sizing: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 p {

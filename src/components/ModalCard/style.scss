@@ -1,0 +1,138 @@
+.modal-card {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  padding: 50px 50px;
+  z-index: 100;
+
+  background-color: rgba(80, 80, 80, 0.5);
+  backdrop-filter: blur(10px);
+
+  &__content {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    // background-color: black;
+    background-image: url('../../assets/space.jpg');
+
+    overflow: hidden;
+    user-select: none;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    // backdrop-filter: invert(80%);
+    // filter: blur(11px);
+    mix-blend-mode: lighten;
+  }
+}
+
+.descriptions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+
+  z-index: 100;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+
+    background-color: rgba(94, 94, 94, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    width: 0%;
+    height: 100%;
+
+    transition: 0.8s;
+    filter: drop-shadow(2px 4px 6px black);
+  }
+
+  &__name {
+    margin-bottom: 50px;
+    font-size: 35px;
+    color: white;
+    filter: drop-shadow(2px 4px 6px black);
+  }
+
+  &__text {
+    font-size: 25px;
+    color: white;
+    filter: drop-shadow(2px 4px 6px black);
+  }
+}
+
+.info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  width: 45%;
+  height: 100%;
+
+  z-index: 100;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+
+    background-color: rgba(94, 94, 94, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    width: 0%;
+    height: 100%;
+
+    transition: 0.8s;
+    filter: drop-shadow(2px 4px 6px black);
+
+    div {
+      div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 40px;
+
+        span:first-child {
+          font-size: 25px;
+          color: white;
+          filter: drop-shadow(2px 4px 6px black);
+        }
+
+        span:last-child {
+          text-align: end;
+          font-size: 25px;
+          color: rgb(226, 212, 9);
+          filter: drop-shadow(2px 4px 6px black);
+        }
+      }
+    }
+  }
+  
+  &__params {
+    margin-bottom: 50px;
+    font-size: 35px;
+    color: white;
+    filter: drop-shadow(2px 4px 6px black);
+  }
+}
+
+.open--content {
+  visibility: visible;
+  opacity: 1;
+  width: 100%;
+}
