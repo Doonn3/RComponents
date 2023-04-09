@@ -1,48 +1,64 @@
-import { ReactElement, useState, useEffect } from 'react';
-import Card from '../../components/Card/Card';
-import CardType from 'components/Card/type/CardType';
+import { useState, useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import FakeCards from '../../FakeApi/cards.json';
 import './style.css';
+import LoadAnim from '../../shared/ui/load/LoadAnim';
+import PlanetsApi from '../../api/PlanetsApi';
+import PlanetType from 'api/types/PlanetType';
+import LayerCards from '../../layers/LayerCards/LayerCards';
 
 function Home() {
-  const [cards, setCards] = useState<ReactElement[]>();
+  const [data, setData] = useState<PlanetType[]>([]);
+  const [counts, setCount] = useState<string>('1');
+
+  const [isLoader, setLoader] = useState<boolean>(true);
 
   useEffect(() => {
-    const cards = getCards();
-    setCards(cards);
+    (async () => {
+      setLoader(true);
+      const data = await getData();
+      setCount(data.counts);
+      setData(data.items);
+      setLoader(false);
+    })();
   }, []);
+
+  const searchResult = async (value: string) => {
+    setLoader(true);
+    if (value.length <= 0) {
+      const data = await getData();
+      setData(data.items);
+      setLoader(false);
+      return;
+    }
+    const planets: PlanetType[] = await PlanetsApi.instance.getSearchPlanets(value);
+    setData(planets);
+    setLoader(false);
+  };
+
+  const handlePage = async (val: number) => {
+    setLoader(true);
+    const data = await getData(String(val));
+    setData(data.items);
+    setCount(data.counts);
+    setLoader(false);
+  };
 
   return (
     <main className="main">
-      <SearchBar />
-      <section className="main__content">{cards}</section>
+      <SearchBar searchResult={searchResult} />
+      <LayerCards items={data} pageCount={counts} callback={handlePage} />
+      {isLoader ? <LoadAnim /> : ''}
     </main>
   );
 }
 
-function getCards(): ReactElement[] {
-  const data = JSON.stringify(FakeCards);
-  const jsonObj = JSON.parse(data);
+async function getData(val = ''): Promise<{ items: PlanetType[]; counts: string }> {
+  const data = await PlanetsApi.instance.getAllPlanets(val);
 
-  const cards: ReactElement[] = [];
-  for (const key in jsonObj) {
-    const card: CardType = jsonObj[key];
-    cards.push(
-      <Card
-        key={card.id}
-        id={card.id}
-        darkMode={card.darkMode}
-        img={card.img}
-        title={card.title}
-        author={card.author}
-        tags={card.tags}
-        liksCount={card.liksCount}
-        viewCount={card.viewCount}
-      />
-    );
-  }
-  return cards;
+  const planets: PlanetType[] = data.items;
+  const counts = data.counts;
+
+  return { items: planets, counts };
 }
 
 export default Home;
