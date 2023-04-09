@@ -1,7 +1,7 @@
 .search-bar {
   display: inline-flex;
   padding: 10px;
-  border: 2px solid rgb(234, 127, 255);
+  border: 2px solid rgb(129, 129, 129);
   border-radius: 50px;
 }
 
@@ -9,11 +9,16 @@
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  filter: invert(1);
 }
 
 .search-bar__input {
   font-size: 20px;
-  color: green;
+  color: white;
+
+  background: none;
+  outline: none;
+  border: none;
 }
 
 .search-bar__input {
@@ -25,5 +30,5 @@
 }
 
 .search-bar:has(.search-bar__input:focus) {
-  outline: 1px solid rgb(234, 127, 255);
+  outline: 2px solid rgb(0, 0, 0);
 }
