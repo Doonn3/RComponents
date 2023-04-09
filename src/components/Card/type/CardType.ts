@@ -1,12 +1,8 @@
 interface CardType {
-  id: string;
-  darkMode: boolean;
-  img?: string;
-  title: string;
-  author: string;
-  tags: string[];
-  liksCount?: number;
-  viewCount?: number;
+  urlImg: string;
+  name: string;
+  descriptions: string;
+  callback?: (id: string) => void;
 }
 
 export default CardType;

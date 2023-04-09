@@ -1,60 +1,34 @@
-import { useEffect, useMemo, useState } from 'react';
 import CardType from './type/CardType';
-import { ReactComponent as IconLike } from '../../assets/like.svg';
-import { ReactComponent as IconView } from '../../assets/view.svg';
-import ImageBlank from '../../assets/blank-card.png';
-import './style.css';
-
-type darkThemeType = {
-  dark: string;
-  whiteText: string;
-};
-
-interface IState {
-  isDarkMode: boolean;
-  darkTheme: darkThemeType;
-}
+import UnknownPlanet from '@sw/UnknownPlanet.webp';
+import './style.scss';
 
 function Card(props: CardType) {
-  const [mode, setDarkMode] = useState<IState>({
-    isDarkMode: false,
-    darkTheme: { dark: '', whiteText: '' },
-  });
+  const { urlImg, descriptions, name } = props;
 
-  const theme = useMemo(() => {
-    return { dark: 'dark', whiteText: 'white' };
-  }, []);
-
-  useEffect(() => {
-    const { darkMode } = props;
-    if (darkMode) {
-      setDarkMode({ isDarkMode: true, darkTheme: theme });
+  const handleClick = () => {
+    if (props.callback) {
+      props.callback(name);
     }
-  }, [props, theme]);
+  };
 
-  const { img, author, title, tags, liksCount, viewCount } = props;
+  const getDescriptions = () => {
+    if (descriptions === undefined || descriptions === '') {
+      return `Someone was too lazy to describe the description of the planet, it's not my fault, well, it's not accurate`;
+    }
+
+    if (descriptions.length > 300) {
+      return descriptions.slice(0, (descriptions.length / 100) * 30) + '.....';
+    }
+
+    return descriptions;
+  };
 
   return (
-    <div className={`card ${mode.darkTheme.dark}`}>
-      <img className="card__img" src={img || ImageBlank} alt="" />
+    <div className={`card`} onClick={handleClick}>
+      <img className="card__img" src={urlImg || UnknownPlanet} alt={name} />
       <div className="card__content">
-        <p className={`card__title`}>{title}</p>
-        <p className={`card__author ${mode.darkTheme.whiteText}`}>by {author}</p>
-        <p className={`card__tags ${mode.darkTheme.whiteText}`}>{tags}</p>
-        <div className="card__social">
-          <div className="card__likes">
-            <IconLike className={`icon icon-like ${mode.darkTheme.whiteText}`}></IconLike>
-            <span className={`likes ${mode.darkTheme.whiteText}`}>
-              {liksCount !== undefined && liksCount <= -1 ? 0 : liksCount || 0}
-            </span>
-          </div>
-          <div className="card__views">
-            <IconView className={`icon icon-view ${mode.darkTheme.whiteText}`}></IconView>
-            <span className={`views ${mode.darkTheme.whiteText}`}>
-              {viewCount !== undefined && viewCount <= -1 ? 0 : viewCount || 0}
-            </span>
-          </div>
-        </div>
+        <h1 className={`card__name`}>{name}</h1>
+        <p className={`card__descriptions`}>{getDescriptions()}</p>
       </div>
     </div>
   );
