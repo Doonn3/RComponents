@@ -16,6 +16,10 @@ function Home() {
     (async () => {
       setLoader(true);
       const data = await getData();
+      if (data === null) {
+        setLoader(false);
+        return;
+      }
       setCount(data.counts);
       setData(data.items);
       setLoader(false);
@@ -26,11 +30,16 @@ function Home() {
     setLoader(true);
     if (value.length <= 0) {
       const data = await getData();
+      if (data === null) {
+        setLoader(false);
+        return;
+      }
       setData(data.items);
       setLoader(false);
       return;
     }
-    const planets: PlanetType[] = await PlanetsApi.instance.getSearchPlanets(value);
+    const planets: PlanetType[] | null = await PlanetsApi.instance.getSearchPlanets(value);
+    if (planets === null) return;
     setData(planets);
     setLoader(false);
   };
@@ -38,6 +47,10 @@ function Home() {
   const handlePage = async (val: number) => {
     setLoader(true);
     const data = await getData(String(val));
+    if (data === null) {
+      setLoader(false);
+      return;
+    }
     setData(data.items);
     setCount(data.counts);
     setLoader(false);
@@ -52,9 +65,9 @@ function Home() {
   );
 }
 
-async function getData(val = ''): Promise<{ items: PlanetType[]; counts: string }> {
+async function getData(val = ''): Promise<{ items: PlanetType[]; counts: string } | null> {
   const data = await PlanetsApi.instance.getAllPlanets(val);
-
+  if (data === null) return null;
   const planets: PlanetType[] = data.items;
   const counts = data.counts;
 
