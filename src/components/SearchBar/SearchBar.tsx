@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/search_icon.svg';
 import './style.css';
 
@@ -22,6 +22,12 @@ function SearchBar(props?: ISearchResult) {
     }
   };
 
+  const handleSubmit = () => {
+    if (props?.searchResult) {
+      props.searchResult(value);
+    }
+  };
+
   return (
     <div className="search-bar">
       <SearchIcon className="search-bar__icon" />
@@ -31,6 +37,7 @@ function SearchBar(props?: ISearchResult) {
         placeholder="Search"
         value={value}
         onChange={changeText}
+        onClick={handleSubmit}
       />
     </div>
   );
