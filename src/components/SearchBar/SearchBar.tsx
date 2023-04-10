@@ -23,6 +23,7 @@ function SearchBar(props?: ISearchResult) {
   };
 
   const handleSubmit = () => {
+    if (value.length <= 0) return;
     if (props?.searchResult) {
       props.searchResult(value);
     }
