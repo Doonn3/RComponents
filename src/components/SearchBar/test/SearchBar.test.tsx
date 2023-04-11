@@ -3,7 +3,7 @@ import SearchBar from '../SearchBar';
 
 describe('search bar tests', () => {
   test('Затычка', () => {
-    render(<SearchBar />);
+    render(<SearchBar searchResult={() => {}} />);
     expect(true).toEqual(true);
   });
 });

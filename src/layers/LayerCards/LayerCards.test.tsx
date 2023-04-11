@@ -1,24 +1,6 @@
 import { render } from '@testing-library/react';
 import LayerCards from './LayerCards';
-
-interface PlanetType {
-  imageUrl: string;
-  name: string;
-  descriptions: string;
-  rotation_period: string;
-  orbital_period: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surface_water: string;
-  population: string;
-  residents: string[];
-  films: string[];
-  created: Date;
-  edited: Date;
-  url?: string;
-}
+import PlanetType from '../../api/types/PlanetType';
 
 describe('LayerCards test', () => {
   test('LayerCards render', () => {

@@ -17,7 +17,6 @@ function LayerCards(props: PropsType): JSX.Element {
 
   const handleClickForItem = (id: string) => {
     setIsOpen(true);
-    console.log(id);
     const find = props.items?.find((item) => item.name === id);
     if (find) {
       const modal = <ModalCard {...find} onClick={handleClose} />;
@@ -62,7 +61,7 @@ function LayerCards(props: PropsType): JSX.Element {
 
   const handleNext = () => {
     let result = value + 1;
-    console.log(props.pageCount);
+
     if (result >= calcMaxPage()) result = calcMaxPage();
     setValue(result);
 
