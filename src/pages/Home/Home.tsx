@@ -11,23 +11,29 @@ function Home() {
   const [counts, setCount] = useState<string>('1');
 
   const [isLoader, setLoader] = useState<boolean>(true);
+  const [query, setQuery] = useState<string>(localStorage.getItem('search-bar') || '');
 
   useEffect(() => {
     (async () => {
       setLoader(true);
-      const data = await getData();
-      if (data === null) {
-        setLoader(false);
-        return;
+      if (query.length > 0) {
+        searchResult(query);
+      } else {
+        const data = await getData();
+        if (data === null) {
+          setLoader(false);
+          return;
+        }
+        setCount(data.counts);
+        setData(data.items);
       }
-      setCount(data.counts);
-      setData(data.items);
       setLoader(false);
     })();
-  }, []);
+  }, [query]);
 
   const searchResult = async (value: string) => {
     setLoader(true);
+    setQuery(value);
     if (value.length <= 0) {
       const data = await getData();
       if (data === null) {

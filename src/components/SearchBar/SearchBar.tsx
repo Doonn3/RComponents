@@ -12,7 +12,7 @@ function SearchBar(props?: ISearchResult) {
 
   useEffect(() => {
     localStorage.setItem(localKey, value || '');
-  });
+  }, [value]);
 
   const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val: string = event.currentTarget.value;
