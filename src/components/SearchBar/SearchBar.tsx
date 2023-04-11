@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/search_icon.svg';
 import './style.css';
 
@@ -17,12 +17,14 @@ function SearchBar(props?: ISearchResult) {
   const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val: string = event.currentTarget.value;
     setValue(val);
-    if (props?.searchResult) {
+    if (!props?.searchResult) return;
+    if (val.length <= 0) {
       props.searchResult(val);
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (value.length <= 0) return;
     if (props?.searchResult) {
       props.searchResult(value);
@@ -30,7 +32,7 @@ function SearchBar(props?: ISearchResult) {
   };
 
   return (
-    <div className="search-bar">
+    <form className="search-bar" onSubmit={handleSubmit}>
       <SearchIcon className="search-bar__icon" />
       <input
         className="search-bar__input"
@@ -38,9 +40,8 @@ function SearchBar(props?: ISearchResult) {
         placeholder="Search"
         value={value}
         onChange={changeText}
-        onClick={handleSubmit}
       />
-    </div>
+    </form>
   );
 }
 
