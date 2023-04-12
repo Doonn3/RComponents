@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, fireEvent } from '@testing-library/react';
-import React from 'react';
 import CForm from '../CForm';
 
 describe('CForm test', () => {
@@ -18,8 +16,5 @@ describe('CForm test', () => {
     const flag = fireEvent.click(submit);
     container.click();
     expect(flag).toBeTruthy();
-    // expect(ref.current?.accessTextError());
-    // expect(ref.current?.accessTextSuccess());
-    // expect(ref.current?.resetAccessText());
   });
 });

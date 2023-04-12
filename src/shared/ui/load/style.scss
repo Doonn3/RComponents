@@ -13,15 +13,8 @@ $gradient: linear-gradient(to left top, #adf2f7 10%, transparent 30%, transparen
 
   z-index: 100;
 
-  //   animation-name: circle;
-  //   animation-fill-mode: forwards;
-  //   animation-duration: 4s;
-  //   // зациклиная анимация с этой страницей с самой себя, с учетом следующей фик
-  //   animation-iteration-count: infinite; // сначала сч
   animation: circle 5s infinite linear;
 }
-
-// keyframes анимации поворот вокруг оси z бесконечный и без рывков
 
 @keyframes circle {
   to {
