@@ -5,8 +5,6 @@ import Header from '../components/Header/Header';
 import Home from '../pages/Home/Home';
 import NotFound from '../pages/404/404';
 import CreateCard from '../pages/CreateCard/CreateCard';
-import { Provider } from 'react-redux';
-import { store } from '../api/store/Store';
 
 function App() {
   return (
