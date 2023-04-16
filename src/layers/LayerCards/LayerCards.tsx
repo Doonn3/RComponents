@@ -6,7 +6,7 @@ import ModalCard from '../../components/ModalCard/ModalCard';
 
 type PropsType = {
   items: PlanetType[] | undefined;
-  pageCount: string;
+  maxPageCount: number;
   callback?: (val: number) => void;
 };
 
@@ -53,6 +53,7 @@ function LayerCards(props: PropsType): JSX.Element {
   const handlePrev = () => {
     let result = value - 1;
     if (result <= 0) result = 1;
+
     setValue(result);
 
     if (props.callback === undefined) return;
@@ -61,7 +62,6 @@ function LayerCards(props: PropsType): JSX.Element {
 
   const handleNext = () => {
     let result = value + 1;
-
     if (result >= calcMaxPage()) result = calcMaxPage();
     setValue(result);
 
@@ -70,7 +70,7 @@ function LayerCards(props: PropsType): JSX.Element {
   };
 
   function calcMaxPage() {
-    return Math.floor(Number(props.pageCount) / 10);
+    return Math.floor(props.maxPageCount / 10);
   }
 
   const handleClose = () => {
