@@ -23,7 +23,7 @@ describe('LayerCards test', () => {
       url: '',
     };
     const arr = [type];
-    const { container } = render(<LayerCards items={arr} pageCount={'1'} />);
+    const { container } = render(<LayerCards items={arr} maxPageCount={'1'} />);
     expect(container).toBeInTheDocument();
   });
 });
