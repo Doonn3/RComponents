@@ -1,29 +1,26 @@
-import { setSearch } from '../../api/slices/search.slice';
-import React, { useState } from 'react';
+import { setSaveText, setSubmit } from '../../store/slices/search.slice';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { ReactComponent as SearchIcon } from '../../assets/search_icon.svg';
+import { StoreStateType } from '../../store/Store';
 import './style.css';
-
-type RootState = {
-  search: string;
-};
 
 function SearchBar() {
   const dispatch = useDispatch();
-  const text = useSelector<RootState, string>((state) => state.search);
-  const [value, setValue] = useState<string>(text || '');
+  const searchState = useSelector((state: StoreStateType) => state.search);
 
   const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val: string = event.currentTarget.value;
-    dispatch(setSearch(val));
-    setValue(val);
+    dispatch(setSaveText(val));
+    if (val.length <= 0) {
+      dispatch(setSubmit());
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(text);
-    dispatch(setSearch(value));
+    dispatch(setSubmit());
   };
 
   return (
@@ -33,7 +30,7 @@ function SearchBar() {
         className="search-bar__input"
         type="text"
         placeholder="Search"
-        value={value}
+        value={searchState.saveText}
         onChange={changeText}
       />
     </form>
