@@ -11,7 +11,7 @@ import IRef from './interface/IRef';
 export interface SuccessValidateProps {
   title: string;
   author: string;
-  tags: string[];
+  descriptions: string;
   file: string;
   themeDarkMode: boolean;
 }
@@ -48,8 +48,8 @@ function CForm(props: CFormSuccessValidate) {
     const titleV = titleValidate(refTitle.current?.GetchildRef);
     accessText(refTitle, titleV.accessCode, titleV.text);
 
-    const tagsV = tagsValidate(refTags.current?.GetchildRef);
-    accessText(refTags, tagsV.accessCode, tagsV.text);
+    const descriptionsV = descriptionsValidate(refTags.current?.GetchildRef);
+    accessText(refTags, descriptionsV.accessCode, descriptionsV.text);
 
     const dateV = dateValidate(refDate.current?.GetchildRef);
     accessText(refDate, dateV.accessCode);
@@ -59,7 +59,7 @@ function CForm(props: CFormSuccessValidate) {
 
     vArr.push(titleV.accessCode);
     vArr.push(authorV.accessCode);
-    vArr.push(tagsV.accessCode);
+    vArr.push(descriptionsV.accessCode);
     vArr.push(fileV.accessCode);
     vArr.push(dateV.accessCode);
 
@@ -73,7 +73,7 @@ function CForm(props: CFormSuccessValidate) {
     const data: SuccessValidateProps = {
       title: titleV.data as string,
       author: authorV.data as string,
-      tags: tagsV.data as string[],
+      descriptions: descriptionsV.data as string,
       file: fileV.data as string,
       themeDarkMode: isDrakMode !== undefined ? isDrakMode : false,
     };
@@ -119,17 +119,19 @@ function CForm(props: CFormSuccessValidate) {
       }
     }
 
-    return { accessCode: 'Success', data: arr.join('') };
+    return { accessCode: 'Success', data: arr.join(' ') };
   }
 
-  function tagsValidate(ref: React.RefObject<HTMLInputElement> | undefined): ValidateInfoType {
+  function descriptionsValidate(
+    ref: React.RefObject<HTMLInputElement> | undefined
+  ): ValidateInfoType {
     if (ref === undefined) return { accessCode: 'Error' };
     if (ref.current === null) return { accessCode: 'Error' };
     const val = ref.current.value;
 
     if (val.length < 3) return { accessCode: 'Error', text: 'Error: min 3 chars' };
 
-    const result = val.split(',');
+    const result = val;
 
     return { accessCode: 'Success', data: result };
   }
@@ -201,7 +203,7 @@ function CForm(props: CFormSuccessValidate) {
             <p className={style.help}>Card name: Format (First Card)</p>
           </label>
           <label className={style.label}>
-            <CInput inputType="text" placeholder="Tags" ref={refTags} />
+            <CInput inputType="text" placeholder="Descriptions" ref={refTags} />
             <p className={style.help}>Tags: Example (design, photo, nature)</p>
           </label>
           <label className={style.label}>
