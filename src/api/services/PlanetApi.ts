@@ -52,7 +52,7 @@ export const useGetPlanetsForPageMidlware = (value = 1) => {
   const returnStruct = {
     data: {
       results: planetsData,
-      counts: counts,
+      count: counts,
     },
     isLoading: struct.isLoading,
     error: struct.error,
