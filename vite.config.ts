@@ -1,6 +1,6 @@
 /// <reference types="vitest"/>
 /// <reference types="vite/client" />
-import path from 'path'
+import path from 'path';
 import { defineConfig } from 'vite';
 import { configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
@@ -21,13 +21,14 @@ export default defineConfig({
   resolve: {
     alias: {
       '@sw': path.resolve(__dirname, './src/assets/starwars-planets'),
+      '@store': path.resolve(__dirname, './src/store'),
     },
   },
   test: {
-    // exclude: [...configDefaults.exclude, 'src/components/'],
     globals: true,
     environment: 'jsdom',
     coverage: {
+      exclude: [...configDefaults.exclude, '**/*.ts', '*.ts'],
       provider: 'c8',
       all: false,
       reporter: 'text',
