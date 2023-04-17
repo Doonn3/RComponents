@@ -3,15 +3,20 @@ import Card from '../../components/Card/Card';
 import React, { useState } from 'react';
 import './style.scss';
 import ModalCard from '../../components/ModalCard/ModalCard';
+import { useSelector } from 'react-redux';
+import { StoreStateType } from 'store/Store';
+import { useDispatch } from 'react-redux';
+import { setNumber } from '../../store/slices/pageNumber.slice';
 
 type PropsType = {
   items: PlanetType[] | undefined;
   maxPageCount: number;
-  callback?: (val: number) => void;
 };
 
 function LayerCards(props: PropsType): JSX.Element {
-  const [value, setValue] = useState<number>(1);
+  const dispatch = useDispatch();
+  const statePageNumber = useSelector((state: StoreStateType) => state.pageNumber);
+  const [value, setValue] = useState<number>(statePageNumber.saveNumber || 1);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modal, setModal] = useState<JSX.Element>();
 
@@ -37,36 +42,19 @@ function LayerCards(props: PropsType): JSX.Element {
     );
   });
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let num = Number(event.target.value);
-    if (num <= 0) return;
-    if (isNaN(num)) return;
-
-    if (num >= calcMaxPage()) num = calcMaxPage();
-
-    setValue(num);
-
-    if (props.callback === undefined) return;
-    props.callback(num);
-  };
-
   const handlePrev = () => {
     let result = value - 1;
     if (result <= 0) result = 1;
 
     setValue(result);
-
-    if (props.callback === undefined) return;
-    props.callback(result);
+    dispatch(setNumber(result));
   };
 
   const handleNext = () => {
     let result = value + 1;
     if (result >= calcMaxPage()) result = calcMaxPage();
     setValue(result);
-
-    if (props.callback === undefined) return;
-    props.callback(result);
+    dispatch(setNumber(result));
   };
 
   function calcMaxPage() {
@@ -84,7 +72,12 @@ function LayerCards(props: PropsType): JSX.Element {
         <button className="layer__btn" onClick={handlePrev}>
           &lt;
         </button>
-        <input className="layer__input" type="text" value={value} onChange={handleInput} />
+        <input
+          className="layer__input"
+          type="text"
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+        />
         <button className="layer__btn" onClick={handleNext}>
           &gt;
         </button>
