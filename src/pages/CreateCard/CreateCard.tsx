@@ -1,20 +1,34 @@
+import CardForm from '../../components/CardForm/CardForm';
 import { useState } from 'react';
-import Card from '../../components/Card/Card';
 import CForm, { SuccessValidateProps } from '../../components/CForm/CForm';
 import './style.css';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { StoreStateType } from '../../store/Store';
+import { addCard } from '../../store/slices/createCardForm.slice';
 
 function CreateCard() {
-  const [cards, setCard] = useState<JSX.Element[]>([]);
+  const dispatch = useDispatch();
+  const storeCards = useSelector((state: StoreStateType) => state.formCards);
+  const [cards, setCard] = useState<JSX.Element[]>(storeCards.cards || []);
 
   const create = (args: SuccessValidateProps) => {
-    const { title, author, file } = args;
+    const { title, author, file, descriptions } = args;
 
     const key = `${title}.${Date.now()}`;
 
-    const item: JSX.Element = <Card key={key} urlImg={file} descriptions={title} name={author} />;
+    const item: JSX.Element = (
+      <CardForm
+        key={key}
+        authorFullName={author}
+        title={title}
+        descriptions={descriptions}
+        img={file}
+      />
+    );
 
-    // setCard((prevState) => ({ ...prevState, item }));
     setCard([...cards, item]);
+    dispatch(addCard(item));
   };
 
   return (
