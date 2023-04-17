@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import './style.css';
 import LoadAnim from '../../shared/ui/load/LoadAnim';
@@ -8,35 +7,28 @@ import {
   useSearchPlanetMidlware,
 } from '../../api/services/PlanetApi';
 import { useSelector } from 'react-redux';
-
-type RootState = {
-  search: string;
-};
+import { StoreStateType } from '../../store/Store';
 
 function Home() {
-  const searchText = useSelector<RootState, string>((state) => state.search);
-  const [pageNumber, setPageNumber] = useState<number>(1);
-  const { data, isLoading, error } = useGetPlanetsForPageMidlware(pageNumber);
+  const searchState = useSelector((state: StoreStateType) => state.search);
+  const pageNumber = useSelector((state: StoreStateType) => state.pageNumber);
 
-  const searchData = useSearchPlanetMidlware(searchText);
-
-  const handlePage = async (val: number) => {
-    setPageNumber(val);
-  };
+  const planetsData = useGetPlanetsForPageMidlware(pageNumber.saveNumber);
+  const searchData = useSearchPlanetMidlware(searchState.submitText);
 
   return (
     <main className="main">
       <SearchBar />
-      {isLoading ? (
+      <LayerCards
+        items={searchState.submitText.length <= 0 ? planetsData.data?.results : searchData.data}
+        maxPageCount={planetsData.data === undefined ? 1 : planetsData.data.count}
+      />
+      {planetsData.isLoading || searchData.isLoading ? (
         <LoadAnim />
-      ) : error ? (
+      ) : planetsData.error ? (
         'Error'
       ) : (
-        <LayerCards
-          items={searchText.length <= 0 ? data?.results : searchData.data}
-          maxPageCount={data?.counts || 1}
-          callback={handlePage}
-        />
+        ''
       )}
     </main>
   );
