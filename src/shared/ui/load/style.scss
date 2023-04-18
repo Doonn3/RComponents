@@ -1,0 +1,27 @@
+$gradient: linear-gradient(to left top, #adf2f7 10%, transparent 30%, transparent 70%, #adf2f7 90%);
+
+.load-anim {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  background: $gradient;
+
+  z-index: 100;
+
+  animation: circle 5s infinite linear;
+}
+
+@keyframes circle {
+  to {
+    transform: rotateZ(0deg);
+  }
+
+  from {
+    transform: rotateZ(360deg);
+  }
+}
