@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { CardFormPropsType } from '../../components/CardForm/CardForm';
 
 type SliceType = {
-  cards: JSX.Element[];
+  cards: CardFormPropsType[];
 };
 
 const initialState: SliceType = {
