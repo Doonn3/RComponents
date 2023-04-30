@@ -1,0 +1,9 @@
+{
+    "reporter": ["text", "html"],
+    "temp-dir": "./coverage/.nyc_output",
+    "exclude": ["**/test/**"],
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "all": true,
+    "include": ["src/**/*.{js,jsx,ts,tsx}"],
+    "check-coverage": "true"
+  }
