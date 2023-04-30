@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import IRef from 'components/CForm/interface/IRef';
 import IResetText from 'components/CForm/interface/IResetText';
+import { expect } from 'vitest';
 import React from 'react';
 import CInputSwitch from './CInputSwitch';
 

@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import { expect } from 'vitest';
 import ModalCard from './ModalCard';
 import PlanetType from '../../api/types/PlanetType';
 

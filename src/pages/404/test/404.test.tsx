@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import { expect } from 'vitest';
 import NotFound from '../404';
 
 describe('CreateCard page test', () => {

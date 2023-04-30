@@ -1,12 +1,13 @@
 import { render } from '@testing-library/react';
+import { expect } from 'vitest';
 import { Provider } from 'react-redux';
-import { store } from '../../../store/Store';
+import { createConfiguredStore } from '../../../store/Store';
 import SearchBar from '../SearchBar';
 
 describe('search bar tests', () => {
   test('Затычка', () => {
     render(
-      <Provider store={store}>
+      <Provider store={createConfiguredStore()}>
         <SearchBar />
       </Provider>
     );

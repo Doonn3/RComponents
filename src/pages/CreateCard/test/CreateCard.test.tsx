@@ -1,12 +1,13 @@
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { store } from '../../../store/Store';
+import { expect } from 'vitest';
+import { createConfiguredStore } from '../../../store/Store';
 import CreateCard from '../CreateCard';
 
 describe('CreateCard page test', () => {
   test('render component', () => {
     const { container } = render(
-      <Provider store={store}>
+      <Provider store={createConfiguredStore()}>
         <CreateCard />
       </Provider>
     );

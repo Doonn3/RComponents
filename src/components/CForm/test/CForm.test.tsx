@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
+import { expect } from 'vitest';
 import CForm from '../CForm';
 
 describe('CForm test', () => {

@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react';
+import { expect } from 'vitest';
 import LayerCards from './LayerCards';
 import PlanetType from '../../api/types/PlanetType';
 import { Provider } from 'react-redux';
-import { store } from '../../store/Store';
+import { createConfiguredStore } from '../../store/Store';
 
 describe('LayerCards test', () => {
   test('LayerCards render', () => {
@@ -26,7 +27,7 @@ describe('LayerCards test', () => {
     };
     const arr = [type];
     const { container } = render(
-      <Provider store={store}>
+      <Provider store={createConfiguredStore()}>
         <LayerCards items={arr} maxPageCount={1} />
       </Provider>
     );
