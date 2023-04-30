@@ -22,7 +22,10 @@
   "include": [
     "./eslintrc.json",
     "./src/**/*", 
-    "styled.d.ts"
+    "styled.d.ts",
+    "server/**/*",
+    "cypress.config.ts",
+    "./cypress/**/*"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
