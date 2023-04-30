@@ -30,6 +30,7 @@ function LayerCards(props: PropsType): JSX.Element {
   };
 
   const data = props.items;
+
   const items = data?.map((elem) => {
     return (
       <Card
