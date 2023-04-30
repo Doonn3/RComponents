@@ -36,16 +36,9 @@ export default defineConfig({
     },
     setupFiles: './src/setupTest.ts',
   },
-  // server: {
-  //   proxy: {
-  //     '/api': 'http://localhost:3000',
-  //   },
-  // },
   build: {
-    // ssr: './server/server.js',
     manifest: true,
     rollupOptions: {
-      // overwrite default .html entry
       input: './src/shared/HtmlTemplate.tsx',
     },
     outDir: './dist',
