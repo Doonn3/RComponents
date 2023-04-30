@@ -9,19 +9,10 @@ export default defineConfig({
       return config;
     },
     baseUrl: 'http://localhost:5173/',
-    env: {
-      codeCoverage: {
-        // exclude: ['cypress/**/*.*'],
-        // include: ['coverage/**/*.*'],
-        coverageFolder: './coverage/.nyc_output',
-      },
-    },
   },
   env: {
     codeCoverage: {
-      // exclude: ['cypress/**/*.*'],
-      // include: ['coverage/**/*.*'],
-      coverageFolder: './coverage/.nyc_output',
+      coverageFolder: './cypress/coverage/.nyc_output',
     },
   },
 });

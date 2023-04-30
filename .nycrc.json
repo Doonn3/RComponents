@@ -1,9 +1,9 @@
 {
     "reporter": ["text", "html"],
-    "temp-dir": "./coverage/.nyc_output",
+    "temp-dir": "./cypress/coverage/.nyc_output",
     "exclude": ["**/test/**"],
+    "include": ["./cypress/**/*.{js,jsx,ts,tsx}"],
     "extends": "@istanbuljs/nyc-config-typescript",
     "all": true,
-    "include": ["src/**/*.{js,jsx,ts,tsx}"],
     "check-coverage": "true"
   }
